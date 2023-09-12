@@ -27,3 +27,7 @@ To get a local copy of this project up and running, follow these steps:
    ```bash
    git clone https://github.com/IsraelOjiefoh/memes
 
+```bash
+npm install
+```bash
+npm run dev
