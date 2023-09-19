@@ -73,7 +73,7 @@ const App = () => {
                 </h5>
               </div>
             )}
-            <div className="button-container d-flex justify-content-between ">
+            <div className="button-container d-flex justify-content-around ">
               <button  onClick={prevMeme}>Previous Meme</button>
               <button onClick={nextMeme}>Next Meme</button>
             </div>
