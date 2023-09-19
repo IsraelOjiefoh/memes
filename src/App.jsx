@@ -6,6 +6,7 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [displayedMemes, setDisplayedMemes] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   useEffect(() => {
     axios
@@ -26,17 +27,32 @@ const App = () => {
     if (currentIndex >= displayedMemes.length) {
       setCurrentIndex(0);
     }
+    setImageLoaded(false);
   }, [currentIndex, displayedMemes]);
 
+  const prevMeme = () => {
+    setCurrentIndex((prevIndex) =>
+      prevIndex === 0 ? displayedMemes.length - 1 : prevIndex - 1
+    );
+    setImageLoaded(false);
+  };
+
   const nextMeme = () => {
-    setCurrentIndex((prevIndex) => prevIndex + 1);
+    setCurrentIndex((prevIndex) =>
+      prevIndex === displayedMemes.length - 1 ? 0 : prevIndex + 1
+    );
+    setImageLoaded(false);
+  };
+
+  const handleImageLoad = () => {
+    setImageLoaded(true);
   };
 
   return (
     <div className="container">
       <div className="row">
         <div className="col">
-          <h3 className="text-center m-5 r text-muted  ">MEMES</h3>
+          <h3 className="text-center m-5 r text-muted">MEMES</h3>
         </div>
       </div>
       {isLoading ? (
@@ -47,12 +63,18 @@ const App = () => {
             <img
               src={displayedMemes[currentIndex].url}
               alt="meme"
-              className="img-fluid"
+              className={`img-fluid ${imageLoaded ? "show" : "hide"}`}
+              onLoad={handleImageLoad}
             />
-            <div className="card-body">
-              <h5 className="card-title">
-                {displayedMemes[currentIndex].name}
-              </h5>
+            {imageLoaded && (
+              <div className="card-body">
+                <h5 className="card-title">
+                  {displayedMemes[currentIndex].name}
+                </h5>
+              </div>
+            )}
+            <div className="button-container d-flex justify-content-between ">
+              <button  onClick={prevMeme}>Previous Meme</button>
               <button onClick={nextMeme}>Next Meme</button>
             </div>
           </div>
